@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+
+build() {
+  case "$1" in
+    server)
+      cabal build --project-file=cabal.project server:exe:server
+      ;;
+    client)
+      cabal build --project-file=cabal.project.client client:exe:client
+      ;;
+    *)
+      echo "Unknown target: $1" >&2
+      return 1
+      ;;
+  esac
+}
+
+case "${1:-}" in
+  build)
+    shift
+    targets=("$@")
+
+    if ((${#targets[@]} == 0)); then
+      selected=$(gum choose --no-limit --selected=client server client)
+      [[ -n "$selected" ]] || exit 0
+      mapfile -t targets <<< "$selected"
+    fi
+
+    for target in "${targets[@]}"; do
+      build "$target"
+    done
+    ;;
+  run)
+    build client
+    exec cabal run --project-file=cabal.project server:exe:server
+    ;;
+  *)
+    echo "Usage: ./project {build [server|client ...]|run}" >&2
+    exit 1
+    ;;
+esac

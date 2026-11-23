@@ -1,0 +1,6 @@
+packages:
+  server
+  protocol
+
+with-compiler: ghc-9.6.7
+with-hc-pkg:   ghc-pkg-9.6.7

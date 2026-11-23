@@ -1,0 +1,7 @@
+packages:
+  client
+  protocol
+
+package *
+    shared:           True
+    library-for-ghci: False
