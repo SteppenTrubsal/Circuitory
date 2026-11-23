@@ -1,8 +1,13 @@
 module Main (main) where
 
-import qualified MyLib (someFunc)
+import           Config
+
+import           Control.Lens
+
+import qualified MyLib        (someFunc)
 
 main :: IO ()
 main = do
-  putStrLn "Hello, Haskell!"
+  conf <- loadConf
+  putStrLn $ conf ^. common . temp
   MyLib.someFunc

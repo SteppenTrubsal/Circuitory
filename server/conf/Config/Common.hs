@@ -1,0 +1,10 @@
+module Config.Common where
+
+import           Control.Lens  (makeLenses)
+import           Data.Aeson.TH
+
+data CommonConf = CommonConf
+  { _temp :: String
+  }
+makeLenses ''CommonConf
+$(deriveJSON defaultOptions {fieldLabelModifier = drop 1} ''CommonConf)
