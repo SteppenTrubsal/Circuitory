@@ -4,10 +4,10 @@ import           Config
 
 import           Control.Lens
 
-import qualified MyLib        (someFunc)
+import           Server       (launch)
 
 main :: IO ()
 main = do
   conf <- loadConf
   putStrLn $ conf ^. common . temp
-  MyLib.someFunc
+  launch
